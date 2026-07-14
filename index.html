@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velmurugan — SOC Analyst Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0E14;
+    --panel: #121826;
+    --panel-2: #161D2C;
+    --border: #232B3D;
+    --text: #E7ECF3;
+    --text-dim: #8B95A7;
+    --amber: #F5A623;
+    --green: #3DDC97;
+    --red: #E5484D;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,14,20,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .logo{font-family:var(--font-mono);font-weight:500;font-size:14px;color:var(--text);display:flex;align-items:center;gap:8px;}
+  .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+  .navlinks{display:flex;gap:28px;font-size:13px;color:var(--text-dim);font-family:var(--font-mono);}
+  .navlinks a:hover{color:var(--amber);}
+  @media (max-width:640px){.navlinks{display:none;}}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:100px 0 70px;position:relative;}
+  .status-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);font-size:12px;color:var(--green);
+    border:1px solid rgba(61,220,151,0.3);background:rgba(61,220,151,0.06);
+    padding:6px 14px;border-radius:20px;margin-bottom:28px;
+  }
+  .status-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(38px,6vw,64px);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+    margin-bottom:18px;
+  }
+  h1 span{color:var(--amber);}
+  .hero-sub{
+    font-size:18px;color:var(--text-dim);max-width:560px;margin-bottom:36px;
+  }
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:56px;}
+  .btn{
+    font-family:var(--font-mono);font-size:13px;padding:12px 22px;border-radius:6px;
+    border:1px solid var(--border);transition:all .15s ease;
+  }
+  .btn-primary{background:var(--amber);color:#0A0E14;border-color:var(--amber);font-weight:500;}
+  .btn-primary:hover{background:#ffb840;}
+  .btn-ghost:hover{border-color:var(--text-dim);}
+
+  /* Live feed signature element */
+  .feed{
+    border:1px solid var(--border);border-radius:10px;background:var(--panel);
+    overflow:hidden;
+  }
+  .feed-header{
+    display:flex;align-items:center;gap:8px;padding:12px 16px;
+    border-bottom:1px solid var(--border);background:var(--panel-2);
+    font-family:var(--font-mono);font-size:11px;color:var(--text-dim);
+  }
+  .feed-header .dots{display:flex;gap:6px;margin-right:8px;}
+  .feed-header .dots span{width:9px;height:9px;border-radius:50%;background:var(--border);}
+  .feed-body{padding:14px 16px;height:150px;overflow:hidden;font-family:var(--font-mono);font-size:12px;}
+  .feed-line{display:flex;gap:10px;padding:5px 0;color:var(--text-dim);opacity:0;animation:fadein .4s forwards;}
+  .feed-line .tag{padding:1px 7px;border-radius:3px;font-size:10px;font-weight:500;white-space:nowrap;height:fit-content;}
+  .tag-info{background:rgba(139,149,167,0.15);color:var(--text-dim);}
+  .tag-warn{background:rgba(245,166,35,0.15);color:var(--amber);}
+  .tag-crit{background:rgba(229,72,77,0.15);color:var(--red);}
+  @keyframes fadein{to{opacity:1;}}
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:70px 0;border-top:1px solid var(--border);}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:12px;color:var(--amber);
+    letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;
+  }
+  h2{font-family:var(--font-display);font-size:clamp(26px,3.5vw,34px);font-weight:600;margin-bottom:36px;}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;}
+  @media (max-width:720px){.about-grid{grid-template-columns:1fr;}}
+  .about-grid p{color:var(--text-dim);margin-bottom:16px;}
+  .about-grid p strong{color:var(--text);font-weight:500;}
+  .info-card{border:1px solid var(--border);border-radius:10px;padding:20px 22px;background:var(--panel);height:fit-content;}
+  .info-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;}
+  .info-row:last-child{border-bottom:none;}
+  .info-row span:first-child{color:var(--text-dim);}
+  .info-row span:last-child{font-family:var(--font-mono);}
+
+  /* ---------- SKILLS ---------- */
+  .skill-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  @media (max-width:720px){.skill-groups{grid-template-columns:1fr;}}
+  .skill-card{border:1px solid var(--border);border-radius:10px;padding:22px;background:var(--panel);}
+  .skill-card h3{font-family:var(--font-mono);font-size:13px;color:var(--amber);margin-bottom:14px;text-transform:uppercase;letter-spacing:0.05em;}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag{
+    font-family:var(--font-mono);font-size:12px;color:var(--text-dim);
+    border:1px solid var(--border);padding:5px 10px;border-radius:5px;
+  }
+
+  /* ---------- TIMELINE (certifications) ---------- */
+  .timeline{position:relative;padding-left:28px;}
+  .timeline::before{content:'';position:absolute;left:5px;top:6px;bottom:6px;width:1px;background:var(--border);}
+  .t-item{position:relative;padding-bottom:32px;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-dot{position:absolute;left:-28px;top:4px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--amber);}
+  .t-date{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);margin-bottom:4px;}
+  .t-title{font-weight:600;font-size:16px;margin-bottom:4px;}
+  .t-issuer{font-size:13px;color:var(--text-dim);margin-bottom:6px;}
+  .t-desc{font-size:13px;color:var(--text-dim);}
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  @media (max-width:720px){.proj-grid{grid-template-columns:1fr;}}
+  .proj-card{
+    border:1px solid var(--border);border-radius:10px;padding:24px;background:var(--panel);
+    transition:border-color .15s ease;display:flex;flex-direction:column;
+  }
+  .proj-card:hover{border-color:var(--amber);}
+  .proj-status{font-family:var(--font-mono);font-size:11px;color:var(--green);margin-bottom:10px;}
+  .proj-card h3{font-family:var(--font-display);font-size:19px;margin-bottom:10px;}
+  .proj-card p{font-size:13px;color:var(--text-dim);margin-bottom:16px;flex-grow:1;}
+  .proj-link{font-family:var(--font-mono);font-size:12px;color:var(--amber);}
+  .proj-link:hover{text-decoration:underline;}
+
+  /* ---------- ROADMAP ---------- */
+  .roadmap{counter-reset:step;}
+  .r-step{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--border);}
+  .r-step:last-child{border-bottom:none;}
+  .r-num{
+    font-family:var(--font-mono);font-size:13px;color:var(--amber);
+    border:1px solid var(--border);width:34px;height:34px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .r-body h4{font-size:15px;margin-bottom:5px;}
+  .r-body p{font-size:13px;color:var(--text-dim);}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{padding:60px 0 40px;text-align:center;border-top:1px solid var(--border);}
+  footer h2{margin-bottom:14px;}
+  footer p{color:var(--text-dim);margin-bottom:28px;}
+  .contact-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .contact-links a{
+    font-family:var(--font-mono);font-size:13px;border:1px solid var(--border);
+    padding:10px 20px;border-radius:6px;transition:border-color .15s ease;
+  }
+  .contact-links a:hover{border-color:var(--amber);color:var(--amber);}
+  .copyright{margin-top:40px;font-size:11px;color:var(--text-dim);font-family:var(--font-mono);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>VELMURUGAN.A // SEC</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#certs">Certifications</a>
+      <a href="#projects">Projects</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="status-pill"><span class="dot"></span>OPEN TO SOC ANALYST ROLES</div>
+    <h1>Watching the logs<br>so incidents don't<br>watch <span>you</span>.</h1>
+    <p class="hero-sub">Velmurugan A. — aspiring SOC Analyst building hands-on detection, triage, and IAM skills through labs, internships, and a Google Cybersecurity foundation.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#certs">View certifications</a>
+      <a class="btn btn-ghost" href="https://github.com/Velmurugan-Security07" target="_blank">GitHub profile</a>
+    </div>
+
+    <div class="feed">
+      <div class="feed-header"><div class="dots"><span></span><span></span><span></span></div>siem_console — live_feed.log</div>
+      <div class="feed-body" id="feedBody"></div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow">01 / About</div>
+    <h2>Foundations, not just theory</h2>
+    <div class="about-grid">
+      <div>
+        <p>I'm building toward a <strong>Tier 1 SOC Analyst</strong> role — the kind of work that means triaging alerts, reading logs others skip past, and knowing the difference between noise and a real incident.</p>
+        <p>My base is the <strong>Google Cybersecurity Professional Certificate</strong> (Linux, SQL, Python, SIEM concepts, IDS), reinforced by two hands-on internships in cybersecurity and ethical hacking, a TryHackMe Pre Security path, and an IAM-focused job simulation with Tata via Forage.</p>
+        <p>Right now I'm deepening SIEM tooling and building a home lab to turn certificates into evidence — logs, detections, and write-ups, not just badges.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-row"><span>Target role</span><span>SOC Analyst (Tier 1)</span></div>
+        <div class="info-row"><span>Base cert</span><span>Google Cybersecurity</span></div>
+        <div class="info-row"><span>Focus areas</span><span>SIEM / IAM / DFIR</span></div>
+        <div class="info-row"><span>Internships</span><span>2 completed</span></div>
+        <div class="info-row"><span>Lab status</span><span style="color:var(--green)">Active</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow">02 / Skills</div>
+    <h2>Toolset</h2>
+    <div class="skill-groups">
+      <div class="skill-card">
+        <h3>Security Operations</h3>
+        <div class="tags">
+          <span class="tag">SIEM concepts</span>
+          <span class="tag">IDS</span>
+          <span class="tag">Log analysis</span>
+          <span class="tag">IAM</span>
+          <span class="tag">Alert triage</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Technical</h3>
+        <div class="tags">
+          <span class="tag">Linux</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Python (basic)</span>
+          <span class="tag">Networking / TCP-IP</span>
+          <span class="tag">IoT fundamentals</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Offensive Security</h3>
+        <div class="tags">
+          <span class="tag">Ethical hacking basics</span>
+          <span class="tag">TryHackMe labs</span>
+          <span class="tag">Vulnerability awareness</span>
+          <span class="tag">Threat research</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="wrap">
+    <div class="eyebrow">03 / Certifications & Training</div>
+    <h2>Timeline</h2>
+    <div class="timeline">
+
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-date">MARCH 2026</div>
+        <div class="t-title">Ethical Hacking Internship</div>
+        <div class="t-issuer">Jutrm Career Academy</div>
+        <div class="t-desc">Hands-on internship covering practical ethical hacking tasks (16–31 Mar 2026).</div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-date">MARCH 2026</div>
+        <div class="t-title">Pre Security Learning Path</div>
+        <div class="t-issuer">TryHackMe</div>
+        <div class="t-desc">19h10m of hands-on labs covering networking and security fundamentals.</div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-date">FEBRUARY 2026</div>
+        <div class="t-title">Internship — Cyber Security & Ethical Hacking</div>
+        <div class="t-issuer">Maincrafts Technology</div>
+        <div class="t-desc">Two-week internship (7–22 Feb 2026) applying cybersecurity and ethical hacking concepts to real tasks.</div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-date">JANUARY 2026</div>
+        <div class="t-title">Cybersecurity Analyst Job Simulation</div>
+        <div class="t-issuer">Tata, via Forage</div>
+        <div class="t-desc">IAM fundamentals, IAM strategy assessment, custom IAM solutions, and platform integration.</div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-date">DECEMBER 2025</div>
+        <div class="t-title">Introduction to IoT and Digital Transformation</div>
+        <div class="t-issuer">Cisco Networking Academy</div>
+        <div class="t-desc">IoT fundamentals and digital transformation concepts.</div>
+      </div>
+
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <div class="t-date">OCTOBER 2025</div>
+        <div class="t-title">Google Cybersecurity Professional Certificate</div>
+        <div class="t-issuer">Google, via Coursera — 9 courses</div>
+        <div class="t-desc">Security foundations, network security, Linux &amp; SQL, assets/threats/vulnerabilities, detection &amp; response, Python automation, and job-readiness.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow">04 / Projects</div>
+    <h2>Lab & repositories</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-status">● ACTIVE</div>
+        <h3>Practice_On_Thm</h3>
+        <p>Free TryHackMe rooms organized in order from beginner to intermediate/advanced level, tracking hands-on progress through core security concepts.</p>
+        <a class="proj-link" href="https://github.com/Velmurugan-Security07/Practice_On_Thm" target="_blank">github.com/Velmurugan-Security07/Practice_On_Thm →</a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-status">● ACTIVE</div>
+        <h3>Cybersecurity-Threat-research</h3>
+        <p>Identifying and analyzing modern cybersecurity threats to improve organizational awareness and defense strategies.</p>
+        <a class="proj-link" href="https://github.com/Velmurugan-Security07/Cybersecurity-Threat-research" target="_blank">github.com/Velmurugan-Security07/Cybersecurity-Threat-research →</a>
+      </div>
+      <div class="proj-card" style="border-style:dashed;">
+        <div class="proj-status" style="color:var(--amber);">● PLANNED</div>
+        <h3>Home-Lab</h3>
+        <p>SIEM home lab (Splunk / Security Onion) with simulated attacks and detection write-ups — next build.</p>
+        <a class="proj-link" style="color:var(--text-dim);">coming soon</a>
+      </div>
+      <div class="proj-card" style="border-style:dashed;">
+        <div class="proj-status" style="color:var(--amber);">● PLANNED</div>
+        <h3>IR-Writeups</h3>
+        <p>Incident response and triage write-ups building on the Tata IAM job simulation.</p>
+        <a class="proj-link" style="color:var(--text-dim);">coming soon</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <div class="eyebrow">05 / Roadmap</div>
+    <h2>Path to Tier 1 SOC Analyst</h2>
+    <div class="roadmap">
+      <div class="r-step">
+        <div class="r-num">1</div>
+        <div class="r-body">
+          <h4>Close the SIEM gap</h4>
+          <p>TryHackMe SOC Level 1 path + stand up Splunk Free or Security Onion in a home lab VM.</p>
+        </div>
+      </div>
+      <div class="r-step">
+        <div class="r-num">2</div>
+        <div class="r-body">
+          <h4>Build detection evidence</h4>
+          <p>Simulate 3–5 attacks, capture the log trail, publish triage write-ups in the lab repo.</p>
+        </div>
+      </div>
+      <div class="r-step">
+        <div class="r-num">3</div>
+        <div class="r-body">
+          <h4>CompTIA Security+</h4>
+          <p>The baseline cert most SOC job postings actually require.</p>
+        </div>
+      </div>
+      <div class="r-step">
+        <div class="r-num">4</div>
+        <div class="r-body">
+          <h4>CompTIA CySA+ (optional depth)</h4>
+          <p>Specialize further into blue team / SOC analysis once Security+ is done.</p>
+        </div>
+      </div>
+      <div class="r-step">
+        <div class="r-num">5</div>
+        <div class="r-body">
+          <h4>Apply — Tier 1 SOC roles</h4>
+          <p>Entry point, not a ceiling. Apply broadly once labs + Security+ are in place.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2>Let's talk security</h2>
+    <p>Open to SOC Analyst and cybersecurity opportunities.</p>
+    <div class="contact-links">
+      <a href="https://github.com/Velmurugan-Security07" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/velmurugan-anand" target="_blank">LinkedIn</a>
+      <a href="#">Email</a>
+    </div>
+    <div class="copyright">© 2026 Velmurugan A. — built for GitHub Pages</div>
+  </div>
+</footer>
+
+<script>
+  const lines = [
+    {tag:'INFO', cls:'tag-info', text:'auth.log — successful login from 10.0.0.14'},
+    {tag:'WARN', cls:'tag-warn', text:'5 failed SSH attempts — 203.0.113.9'},
+    {tag:'INFO', cls:'tag-info', text:'sysmon — process created: powershell.exe'},
+    {tag:'CRIT', cls:'tag-crit', text:'IDS alert — possible brute force detected'},
+    {tag:'INFO', cls:'tag-info', text:'firewall — inbound 445/tcp blocked'},
+    {tag:'WARN', cls:'tag-warn', text:'unusual login time flagged for review'},
+    {tag:'INFO', cls:'tag-info', text:'siem — correlation rule matched, ticket opened'},
+  ];
+  const body = document.getElementById('feedBody');
+  let i = 0;
+  function addLine(){
+    const l = lines[i % lines.length];
+    const div = document.createElement('div');
+    div.className = 'feed-line';
+    div.style.animationDelay = '0s';
+    div.innerHTML = `<span class="tag ${l.cls}">${l.tag}</span><span>${l.text}</span>`;
+    body.appendChild(div);
+    if(body.children.length > 5) body.removeChild(body.firstChild);
+    i++;
+  }
+  addLine();
+  setInterval(addLine, 1800);
+</script>
+
+</body>
+</html>
